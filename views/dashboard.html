@@ -1,0 +1,15 @@
+<?php
+    require('./views/nav.html');ob_start();
+?>
+
+<div>
+    <div id="liste_utilisateur"></div>
+</div>
+
+<?php
+    $script = '<script>
+        event("event.php", "user", "liste_utilisateur");
+    </script>';
+    $content = ob_get_clean();
+    require('./views/template.html')
+?>

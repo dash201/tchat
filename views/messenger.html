@@ -1,0 +1,21 @@
+<?php
+    require('./views/nav.html');ob_start();
+?>
+
+<div>
+    <div id="liste_message"></div>
+</div>
+<div>
+    <form >
+        <textarea id="content" cols="30" rows="10"></textarea>
+        <input type="button" id="send" onclick="send_sms()" value="envoyer">
+    </form>
+</div>
+
+<?php
+    $script = '<script>
+        event("event.php", "message", "liste_message");
+    </script>';
+    $content = ob_get_clean();
+    require('./views/template.html')
+?>

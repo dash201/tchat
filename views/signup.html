@@ -1,0 +1,14 @@
+<?php
+    require('./views/nav.html');
+    ob_start();
+?>
+<form action="index.php?controller=signup" method="post">
+    <input type="email" name="mail" placeholder="Email"><br>
+    <input type="password" name="password" placeholder="Mot de passe"><br>
+    <input type="submit" name="btn" value="connexion">
+</form>
+
+<?php
+    $content = ob_get_clean();
+    require('./views/template.html');
+?>
