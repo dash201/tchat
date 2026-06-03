@@ -1,0 +1,362 @@
+/* ============================================================
+   Chat — feuille de style (inspiration WhatsApp / Messenger)
+   Palette verte WhatsApp, bulles de discussion, cartes modernes
+   ============================================================ */
+
+:root {
+    --green-900: #075e54; /* teal foncé */
+    --green-700: #128c7e;
+    --green-600: #008069; /* barre / accent principal */
+    --green-500: #00a884;
+    --green-bubble: #d9fdd3; /* bulle "envoyé" */
+
+    --bg-app:    #f0f2f5; /* fond général */
+    --bg-chat:   #efeae2; /* fond du fil de discussion */
+    --white:     #ffffff;
+
+    --gray-100: #f1f3f5;
+    --gray-200: #e4e6eb;
+    --gray-300: #d1d7db;
+    --gray-400: #aab1b6;
+    --gray-500: #667781;
+    --gray-700: #3b4a54;
+    --gray-900: #111b21;
+
+    --status-on:  #25d366;
+    --status-off: #aab1b6;
+
+    --radius:    0.75rem;
+    --radius-sm: 0.5rem;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
+    --shadow:    0 4px 12px rgb(0 0 0 / 0.12);
+    --shadow-lg: 0 10px 30px rgb(0 0 0 / 0.15);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+                 Helvetica, Arial, sans-serif;
+    background-color: var(--bg-app);
+    color: var(--gray-900);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   En-tête + marque + navigation
+   ============================================================ */
+header {
+    background-color: var(--green-600);
+    color: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+header section {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 3.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+nav ul li a {
+    display: inline-block;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    color: rgb(255 255 255 / 0.9);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.15s ease;
+}
+
+nav ul li a:hover {
+    background-color: rgb(255 255 255 / 0.15);
+    color: var(--white);
+}
+
+/* ============================================================
+   Conteneur principal
+   ============================================================ */
+body > div {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   Authentification (connexion / inscription)
+   Formulaire centré dans une carte
+   ============================================================ */
+form:not(.chat-input) {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 2.25rem 2rem;
+    width: 100%;
+    max-width: 23rem;
+    margin: auto;            /* centrage vertical + horizontal */
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+/* Titre injecté au-dessus du formulaire d'auth */
+form:not(.chat-input)::before {
+    content: "💬 Chat";
+    display: block;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green-600);
+    margin-bottom: 0.25rem;
+}
+
+/* Les <br> des formulaires d'auth ne servent plus (mise en page via flex/gap) */
+form:not(.chat-input) br { display: none; }
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.9375rem;
+    color: var(--gray-900);
+    background-color: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 0.85rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input::placeholder, textarea::placeholder { color: var(--gray-400); }
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--green-500);
+    box-shadow: 0 0 0 3px rgb(0 168 132 / 0.2);
+}
+
+/* ============================================================
+   Boutons
+   ============================================================ */
+input[type="submit"],
+input[type="button"],
+button {
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--white);
+    background-color: var(--green-600);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 1.1rem;
+    transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover { background-color: var(--green-700); }
+
+input[type="submit"]:active,
+input[type="button"]:active,
+button:active { transform: translateY(1px); }
+
+/* ============================================================
+   Tableau de bord — liste des contacts (style WhatsApp)
+   ============================================================ */
+#liste_utilisateur {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    width: 100%;
+    max-width: 30rem;
+    margin: 0 auto;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem 1.15rem;
+    text-decoration: none;
+    color: var(--gray-900);
+    border-bottom: 1px solid var(--gray-100);
+    transition: background-color 0.15s ease;
+}
+
+.contact:last-child { border-bottom: none; }
+.contact:hover { background-color: var(--gray-100); }
+
+.contact-name { font-weight: 500; font-size: 0.95rem; }
+
+.contact-status {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.contact-status::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.status-on  { color: var(--status-on);  background-color: rgb(37 211 102 / 0.12); }
+.status-off { color: var(--status-off); background-color: rgb(170 177 182 / 0.15); }
+
+/* ============================================================
+   Messagerie — rendu façon WhatsApp / Messenger
+   ============================================================ */
+.chat {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 42rem;
+    height: 70vh;
+    margin: 0 auto;
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* Fil de discussion (zone scrollable) */
+#liste_message {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 1.25rem;
+    background-color: var(--bg-chat);
+    background-image: linear-gradient(rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.4));
+    display: flex;
+    flex-direction: column;
+}
+
+/* Une ligne de message = alignement gauche/droite */
+.msg {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+.msg-sent     { justify-content: flex-end; }
+.msg-received { justify-content: flex-start; }
+
+/* La bulle */
+.bubble {
+    max-width: 70%;
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.msg-sent .bubble {
+    background-color: var(--green-bubble);
+    border-bottom-right-radius: 2px;
+}
+
+.msg-received .bubble {
+    background-color: var(--white);
+    border-bottom-left-radius: 2px;
+}
+
+.bubble .author {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--green-700);
+    margin-bottom: 0.15rem;
+}
+
+.bubble .text {
+    font-size: 0.9375rem;
+    color: var(--gray-900);
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.bubble .time {
+    display: block;
+    text-align: right;
+    font-size: 0.6875rem;
+    color: var(--gray-500);
+    margin-top: 0.2rem;
+}
+
+/* Barre de saisie en bas */
+.chat-input {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+    padding: 0.75rem;
+    background-color: var(--gray-100);
+    border-top: 1px solid var(--gray-200);
+}
+
+.chat-input textarea {
+    flex: 1 1 auto;
+    min-height: 2.75rem;
+    max-height: 8rem;
+    resize: none;
+    border-radius: 1.4rem;
+    padding: 0.65rem 1rem;
+    background-color: var(--white);
+}
+
+.chat-input input[type="button"] {
+    flex: 0 0 auto;
+    border-radius: 1.4rem;
+    padding: 0.7rem 1.3rem;
+}
+
+/* ============================================================
+   Pied de page
+   ============================================================ */
+footer {
+    text-align: center;
+    color: var(--gray-400);
+    font-size: 0.8125rem;
+    padding: 1.25rem;
+}

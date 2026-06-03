@@ -2,13 +2,11 @@
     require('./views/nav.html');ob_start();
 ?>
 
-<div>
+<div class="chat">
     <div id="liste_message"></div>
-</div>
-<div>
-    <form >
-        <textarea id="content" cols="30" rows="10"></textarea>
-        <input type="button" id="send" onclick="send_sms()" value="envoyer">
+    <form class="chat-input">
+        <textarea id="content" placeholder="Écrivez un message..."></textarea>
+        <input type="button" id="send" onclick="send_sms()" value="Envoyer">
     </form>
 </div>
 
