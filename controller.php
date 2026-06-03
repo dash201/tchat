@@ -1,18 +1,14 @@
 <?php
-    require('model.php');
+    require('db/model.php');
     //connexion
     function signup(){
         if(isset($_POST['btn']) && $_POST['btn']==="connexion"){
-            $db = new db('member');
-            //$verify = $db->verify("member_email", $_POST['mail']);
-            if($verify = $db->verify("member_email", $_POST['mail'])){
-                if(password_verify($_POST['password'],$verify['member_pwd'])){
-                    $db->update($verify['member_id'], ["member_statut"=>"connecté"]);
-                    $_SESSION['nom']=$verify['member_nom'];$_SESSION['prenom']=$verify['member_prenom'];$_SESSION['id']=$verify['member_id'];
-                    header('location:index.php?controller=dashbord');
-                }else{
-                    header('location:index.php?controller=signup');
-                }
+            $crud = new crud();
+            $member = $crud->readWhere('member', '*', 'member_email = ?', [$_POST['mail']])->fetch();
+            if($member && password_verify($_POST['password'], $member['member_pwd'])){
+                $crud->up('member', 'member_statut = ?', 'member_id = ?', ['connecté', $member['member_id']]);
+                $_SESSION['nom']=$member['member_nom'];$_SESSION['prenom']=$member['member_prenom'];$_SESSION['id']=$member['member_id'];
+                header('location:index.php?controller=dashbord');
             }else{
                 header('location:index.php?controller=signup');
             }
@@ -23,18 +19,15 @@
     //inscription
     function signin(){
         if(isset($_POST['btn']) && $_POST['btn']==="inscription"){
-            $db = new db('member');
-            $verify = $db->verify("member_email", $_POST['mail']);
-            if($verify['member_email'] != $_POST['mail']){
-                $id=date("d-m-Y H:i:s:u");
-                $db->add([
-                    "member_id"=>$id,
-                    "member_nom"=>$_POST['nom'],
-                    "member_prenom"=>$_POST['prenom'],
-                    "member_email"=>$_POST['mail'],
-                    "member_pwd"=>password_hash($_POST['password'], PASSWORD_DEFAULT),
-                    "member_statut"=>"connecté",
-                ]);
+            $crud = new crud();
+            $exists = $crud->readWhere('member', 'member_id', 'member_email = ?', [$_POST['mail']])->fetch();
+            if(!$exists){
+                $id = $crud->add(
+                    'member',
+                    'member_nom, member_prenom, member_email, member_pwd, member_statut',
+                    '?, ?, ?, ?, ?',
+                    [$_POST['nom'], $_POST['prenom'], $_POST['mail'], password_hash($_POST['password'], PASSWORD_DEFAULT), 'connecté']
+                );
                 $_SESSION['nom']=$_POST['nom'];$_SESSION['prenom']=$_POST['prenom'];$_SESSION['id']=$id;
                 header('location:index.php?controller=dashbord');
             }else{
@@ -46,8 +39,6 @@
 
     function dashbord(){
         if(isset($_SESSION["id"])){
-            $db = new db('member');
-            $member = $db->read();
             require('./views/dashboard.html');
         }
     }
@@ -60,7 +51,7 @@
     }
 
     function disconnect(){
-        $db = new db('member'); $db->update($_SESSION['id'], ["member_statut"=>"déconnecté"]);
+        $crud = new crud(); $crud->up('member', 'member_statut = ?', 'member_id = ?', ['déconnecté', $_SESSION['id']]);
         session_destroy();
         header('location:index.php?controller=signup');
     }

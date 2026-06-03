@@ -1,12 +1,12 @@
 <?php
     session_start();
-    require('model.php');
-    if(isset($_GET['task']) && $_GET['task']=='envoyer'){
-        $db = new db("messenger");
-        $db->add([
-            "messenger_id"=>date("d-m-Y H:i:s:u"),
-            "messenger_content"=>$_GET['content'],
-            "messenger_id_sender"=>$_SESSION['id'],
-            "messenger_id_receiver"=>$_SESSION['rcv'],
-        ]);
+    require('db/model.php');
+    if(isset($_GET['task']) && $_GET['task']=='envoyer' && isset($_SESSION['id'], $_SESSION['rcv'])){
+        $crud = new crud();
+        $crud->add(
+            'messenger',
+            'messenger_content, messenger_id_sender, messenger_id_receiver',
+            '?, ?, ?',
+            [$_GET['content'], $_SESSION['id'], $_SESSION['rcv']]
+        );
     }

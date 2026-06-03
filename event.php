@@ -1,15 +1,19 @@
 <?php
     session_start();
-    require("model.php");
+    require("db/model.php");
     header('Content-Type: text/event-stream');
     header('Cache-Control: no-cache');
 
     function liste_utilisateur(){
-        $db = new db('member');
-        $member = $db->read(); $d="";
+        $crud = new crud();
+        $member = $crud->readAll('member', '*')->fetchAll(); $d="";
         foreach($member as $data):
             if($data["member_id"] != $_SESSION['id']):
-                $d .= '<a href="index.php?controller=messenger&rcv='.$data['member_id'].'">'.$data['member_nom'].'&nbsp;'.$data['member_prenom'].'('.$data['member_statut'].')</a><br/>';
+                $statut = ($data['member_statut'] === 'connecté') ? 'on' : 'off';
+                $d .= '<a class="contact" href="index.php?controller=messenger&rcv='.htmlspecialchars($data['member_id']).'">'
+                    . '<span class="contact-name">'.htmlspecialchars($data['member_nom'].' '.$data['member_prenom']).'</span>'
+                    . '<span class="contact-status status-'.$statut.'">'.htmlspecialchars($data['member_statut']).'</span>'
+                    . '</a>';
             endif;
         endforeach;
 
@@ -17,21 +21,26 @@
     }
 
     function lister_message(){
-        $db = new db('member');
-        $rcv = $db->readWhere($_SESSION['rcv'], "=="); $d="";
-        $db= new db('messenger'); $msg = $db->read();
+        $crud = new crud();
+        $rcv = $crud->readWhere('member', '*', 'member_id = ?', [$_SESSION['rcv']])->fetch(); $d="";
+        $msg = $crud->readWhere(
+            'messenger', '*',
+            '(messenger_id_sender = ? AND messenger_id_receiver = ?) OR (messenger_id_sender = ? AND messenger_id_receiver = ?) ORDER BY messenger_id',
+            [$_SESSION['id'], $_SESSION['rcv'], $_SESSION['rcv'], $_SESSION['id']]
+        )->fetchAll();
         foreach($msg as $t){
-            if($_SESSION['id'] == $t['messenger_id_sender'] && $_SESSION['rcv'] == $t['messenger_id_receiver'] OR $_SESSION['id'] == $t['messenger_id_receiver'] && $_SESSION['rcv'] == $t['messenger_id_sender']){
-                
-                $d .="<div>";
-                    if($_SESSION['id'] == $t["messenger_id_sender"]){
-                        $d .='<span style="color:green">'.$_SESSION['nom'].'&nbsp;'.$_SESSION['prenom'].': '.$t["messenger_content"].'</span><br>';
-                    }
-                    elseif($_SESSION["id"] == $t["messenger_id_receiver"]){
-                        $d .='<span style="color:red">'.$rcv['member_nom'].'&nbsp;'.$rcv['member_prenom'].': '.$t["messenger_content"].'</span><br>';
-                    }
-                    $d .='<span>'.$t["messenger_id"].'</span><br>';
-                $d .="</div>";
+            if($_SESSION['id'] == $t["messenger_id_sender"]){
+                $d .= '<div class="msg msg-sent"><div class="bubble">'
+                    . '<p class="text">'.htmlspecialchars($t["messenger_content"]).'</p>'
+                    . '<span class="time">'.htmlspecialchars($t["messenger_date"]).'</span>'
+                    . '</div></div>';
+            }
+            elseif($_SESSION["id"] == $t["messenger_id_receiver"]){
+                $d .= '<div class="msg msg-received"><div class="bubble">'
+                    . '<span class="author">'.htmlspecialchars($rcv['member_nom'].' '.$rcv['member_prenom']).'</span>'
+                    . '<p class="text">'.htmlspecialchars($t["messenger_content"]).'</p>'
+                    . '<span class="time">'.htmlspecialchars($t["messenger_date"]).'</span>'
+                    . '</div></div>';
             }
         }
         return $d;
