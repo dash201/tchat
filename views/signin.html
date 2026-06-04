@@ -3,6 +3,7 @@
     ob_start();
 ?>
 <form action="index.php?controller=signin" method="post">
+    <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf']; ?>">
     <input type="text" name="nom" placeholder="Nom de famille"><br>
     <input type="text" name="prenom" placeholder="Prenom"><br>
     <input type="email" name="mail" placeholder="Email"><br>

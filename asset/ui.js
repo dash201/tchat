@@ -16,10 +16,15 @@ function event(src, event, id){
 function send_sms(){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
-        if(xhr.readyState==200 && xhr.status==4){
+        if(xhr.readyState==4 && xhr.status==200){
             _("content").value='';
         }
     };
-    xhr.open("GET","server.php?task=envoyer&content="+_("content").value,true);
-    xhr.send(null);
+    xhr.open("POST","server.php",true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(
+        "task=envoyer"+
+        "&content=" + encodeURIComponent(_("content").value)+
+        "&csrf=" + encodeURIComponent(_("csrf").value)
+    );
 }

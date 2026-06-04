@@ -5,6 +5,22 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.1.0] — 2026-06-04
+
+### Sécurité
+- **CSRF** : token aléatoire (`bin2hex(random_bytes(32))`) généré en session et vérifié
+  avec `hash_equals()` sur toutes les actions sensibles — connexion, inscription, envoi de message.
+- Token injecté dans les formulaires `signup.html`, `signin.html` et `messenger.html`
+  via un champ `<input type="hidden">`.
+- `server.php` migré de **GET → POST** pour l'envoi de message ; token vérifié côté serveur.
+- `exit()` ajouté après chaque `header('location:...')` pour stopper l'exécution.
+
+### Corrigé
+- Bug `xhr.readyState==200 && xhr.status==4` inversé dans `ui.js` →
+  corrigé en `readyState==4 && xhr.status==200` (le textarea se vide maintenant correctement).
+- `encodeURIComponent()` ajouté sur le contenu et le token dans `send_sms()` pour éviter
+  la troncature des messages contenant des caractères spéciaux (`&`, `=`, `+`…).
+
 ## [2.0.0] — 2026-06-03
 
 ### Ajouté
@@ -39,5 +55,6 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.1.0]: #210--2026-06-04
 [2.0.0]: #200--2026-06-03
 [1.0.0]: #100--2022

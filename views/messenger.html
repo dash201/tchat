@@ -5,6 +5,7 @@
 <div class="chat">
     <div id="liste_message"></div>
     <form class="chat-input">
+        <input type="hidden" id="csrf" name="csrf" value="<?= $_SESSION['csrf'] ?>">
         <textarea id="content" placeholder="Écrivez un message..."></textarea>
         <input type="button" id="send" onclick="send_sms()" value="Envoyer">
     </form>
