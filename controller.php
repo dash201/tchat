@@ -5,11 +5,25 @@
         if(isset($_POST['btn']) && $_POST['btn']==="connexion"){
             $crud = new crud();
             if(isset($_POST['csrf']) && hash_equals($_SESSION['csrf'], $_POST['csrf'])){
+
                 unset($_SESSION['csrf']);
+
                 $member = $crud->readWhere('member', '*', 'member_email = ?', [$_POST['mail']])->fetch();
+                
                 if($member && password_verify($_POST['password'], $member['member_pwd'])){
-                    $crud->up('member', 'member_statut = ?', 'member_id = ?', ['connecté', $member['member_id']]);
-                    $_SESSION['nom']=$member['member_nom'];$_SESSION['prenom']=$member['member_prenom'];$_SESSION['id']=$member['member_id'];
+                    
+                    $crud->up( 
+                        'member', 
+                        'member_statut = ?', 'member_id = ?', 
+                        ['connecté', $member['member_id']]
+                    );
+
+                    session_regenerate_id(true); // Prévenir les attaques de fixation de session
+
+                    $_SESSION['nom']=$member['member_nom'];
+                    $_SESSION['prenom']=$member['member_prenom'];
+                    $_SESSION['id']=$member['member_id'];
+
                     header('location:index.php?controller=dashbord');
                     exit();
                 }else{
@@ -29,8 +43,11 @@
         if(isset($_POST['btn']) && $_POST['btn']==="inscription"){
             $crud = new crud();
             if(isset($_POST['csrf']) && hash_equals($_SESSION['csrf'], $_POST['csrf'])){
+
                 unset($_SESSION['csrf']);
+                
                 $exists = $crud->readWhere('member', 'member_id', 'member_email = ?', [$_POST['mail']])->fetch();
+                
                 if(!$exists){
                     $id = $crud->add(
                         'member',
@@ -38,7 +55,13 @@
                         '?, ?, ?, ?, ?',
                         [$_POST['nom'], $_POST['prenom'], $_POST['mail'], password_hash($_POST['password'], PASSWORD_DEFAULT), 'connecté']
                     );
-                    $_SESSION['nom']=$_POST['nom'];$_SESSION['prenom']=$_POST['prenom'];$_SESSION['id']=$id;
+
+                    session_regenerate_id(true); // Prévenir les attaques de fixation de session
+                    
+                    $_SESSION['nom']=$_POST['nom'];
+                    $_SESSION['prenom']=$_POST['prenom'];
+                    $_SESSION['id']=$id;
+
                     header('location:index.php?controller=dashbord');
                     exit();
                 }else{
@@ -67,7 +90,8 @@
     }
 
     function disconnect(){
-        $crud = new crud(); $crud->up('member', 'member_statut = ?', 'member_id = ?', ['déconnecté', $_SESSION['id']]);
+        $crud = new crud(); 
+        $crud->up('member', 'member_statut = ?', 'member_id = ?', ['déconnecté', $_SESSION['id']]);
         session_destroy();
         header('location:index.php?controller=signup');
     }
