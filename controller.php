@@ -94,6 +94,7 @@
         $crud->up('member', 'member_statut = ?', 'member_id = ?', ['déconnecté', $_SESSION['id']]);
         session_destroy();
         header('location:index.php?controller=signup');
+        exit();
     }
 
 ?>
