@@ -64,7 +64,7 @@ Navigateur                        Serveur
     |<-- event: user (HTML) --------|
     |<-- event: message (HTML) -----|
     |    (reconnexion auto)         |
-    |--- XHR GET server.php ------->|  (envoi d'un message)
+    |--- XHR POST server.php ------->|  (envoi d'un message)
 ```
 
 ---
@@ -118,6 +118,15 @@ Précautions propres à la **nouvelle couche MySQL** :
 - **Connexion durcie** — mode `ERRMODE_EXCEPTION`, jeu de caractères `utf8mb4`, `EMULATE_PREPARES => false`.
 
 > Conservé de la v1 : le hachage des mots de passe (`password_hash` / `password_verify`), déjà correct.
+
+---
+
+## Documents du projet
+
+| Fichier | Contenu |
+|---|---|
+| [CHANGELOG.md](CHANGELOG.md) | Historique de toutes les versions et modifications — **à lire pour suivre l'évolution du projet** |
+| [SECURITY.md](SECURITY.md) | Protections en place, limites connues et procédure de signalement — **lecture recommandée avant tout déploiement** |
 
 ---
 
