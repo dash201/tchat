@@ -2,11 +2,19 @@ function _(elt){
     return document.getElementById(elt);
 }
 
-function event(src, event, id){
+function event(src, eventName, id, append){
     if(typeof(EventSource) !== "undefined") {
-        var source = new EventSource(src,  { withCredentials: true });
-        source.addEventListener(event,(e)=>{
-            _(id).innerHTML = e.data+"<br/>";
+        var source = new EventSource(src, { withCredentials: true });
+        source.addEventListener(eventName, (e) => {
+            if(e.data.trim() === "") return;
+            if(append){
+                // Messages : ajoute uniquement les nouveaux à la suite
+                _(id).insertAdjacentHTML('beforeend', e.data);
+                _(id).scrollTop = _(id).scrollHeight;
+            } else {
+                // Liste utilisateurs : remplace (la liste entière change)
+                _(id).innerHTML = e.data;
+            }
         });
     } else {
         _(id).innerHTML = "Sorry, your browser does not support server-sent events...";

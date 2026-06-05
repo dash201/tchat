@@ -8,7 +8,7 @@
 
 <?php
     $script = '<script>
-        event("event.php", "user", "liste_utilisateur");
+        event("event.php", "user", "liste_utilisateur", false);
     </script>';
     $content = ob_get_clean();
     require('./views/template.html')

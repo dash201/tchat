@@ -13,7 +13,7 @@
 
 <?php
     $script = '<script>
-        event("event.php", "message", "liste_message");
+        event("event.php", "message", "liste_message", true);
     </script>';
     $content = ob_get_clean();
     require('./views/template.html')

@@ -5,6 +5,22 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.3.0] — 2026-06-05
+
+### Amélioré
+- **Affichage des messages** : passage de `innerHTML =` (remplacement complet) à
+  `insertAdjacentHTML('beforeend', ...)` (ajout en fin de liste) — fini le clignotement
+  et la perte de position du scroll.
+- **Scroll automatique** vers le dernier message à chaque nouveau message reçu.
+- **SSE incrémental** (`Last-Event-ID`) : à la première connexion, tous les messages
+  sont chargés ; aux reconnexions suivantes, seuls les nouveaux sont envoyés — évite
+  les doublons et réduit la charge réseau/base de données.
+- **Paramètre `append`** ajouté à la fonction `event()` JS : `true` pour les messages
+  (ajout), `false` pour la liste de contacts (remplacement) — chaque composant a
+  maintenant le comportement adapté à son usage.
+- **Protection des données SSE** : les sauts de ligne dans le contenu des messages
+  sont nettoyés avant envoi (`str_replace`) pour respecter le format SSE.
+
 ## [2.2.0] — 2026-06-04
 
 ### Sécurité
@@ -57,6 +73,7 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.3.0]: #230--2026-06-05
 [2.2.0]: #220--2026-06-04
 [2.0.0]: #200--2026-06-03
 [1.0.0]: #100--2022
