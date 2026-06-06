@@ -12,6 +12,9 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - Email validé avec `filter_var(FILTER_VALIDATE_EMAIL)` + `trim()`
   - Nom et prénom : champs requis, longueur max 50 caractères
   - Variables assainies (`$nom`, `$prenom`, `$mail`) utilisées partout dans l'insertion et la session
+- **Validation du contenu des messages** (`server.php`) :
+  - `trim()` + rejet des messages vides
+  - Longueur limitée à 2000 caractères (`mb_strlen`)
 
 ## [2.3.0] — 2026-06-05
 
