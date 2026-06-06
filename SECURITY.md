@@ -39,14 +39,19 @@ et la procédure pour signaler une vulnérabilité.
 - Vérification de session avant toute action authentifiée (`dashbord`, `messenger`,
   `server.php`).
 
+### Validation des entrées
+- Email validé avec `filter_var(FILTER_VALIDATE_EMAIL)` + `trim()` à la connexion et l'inscription.
+- Nom et prénom : champs requis, longueur max 50 caractères.
+- Contenu des messages : rejet des messages vides, limite à 2000 caractères (`mb_strlen`).
+
 ---
 
 ## Limites connues (projet en développement)
 
 | Limitation | Impact | Statut |
 |---|---|---|
-| Pas de cookies `HttpOnly / Secure / SameSite` | Cookie de session accessible via JS / transmis en clair | En cours |
-| Pas de validation stricte des entrées | Données malformées possibles à l'inscription | En cours |
+| Pas de cookies `HttpOnly / Secure / SameSite` | Cookie de session accessible via JS / transmis en clair | Planifié |
+| Pas de validation du mot de passe (longueur min) | Mots de passe trop courts acceptés | Planifié |
 | Pas de protection anti-force-brute | Tentatives de mot de passe illimitées | Planifié |
 | Pas d'en-têtes de sécurité HTTP | Pas de CSP, X-Frame-Options, X-Content-Type-Options | Planifié |
 | Pas de HTTPS configuré | Données en transit non chiffrées (hors TLS externe) | Hors scope dev local |
