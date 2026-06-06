@@ -8,7 +8,12 @@
 
                 unset($_SESSION['csrf']);
 
-                $member = $crud->readWhere('member', '*', 'member_email = ?', [$_POST['mail']])->fetch();
+                $mail = trim($_POST['mail']);
+                if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
+                    die('Email invalide');
+                }
+
+                $member = $crud->readWhere('member', '*', 'member_email = ?', [$mail])->fetch();
                 
                 if($member && password_verify($_POST['password'], $member['member_pwd'])){
                     
@@ -45,27 +50,42 @@
             if(isset($_POST['csrf']) && hash_equals($_SESSION['csrf'], $_POST['csrf'])){
 
                 unset($_SESSION['csrf']);
+
+                $nom = trim($_POST['nom']);
+                $prenom = trim($_POST['prenom']);
+                if(empty($nom) || empty($prenom)){
+                    die('Nom et prénom sont requis');
+                }
+                if(strlen($nom) > 50 || strlen($prenom) > 50){
+                    die('Nom et prénom doivent être inférieurs à 50 caractères');
+
+                }
+
+                $mail = trim($_POST['mail']);
+                if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
+                    die('Email invalide');
+                }
                 
-                $exists = $crud->readWhere('member', 'member_id', 'member_email = ?', [$_POST['mail']])->fetch();
+                $exists = $crud->readWhere('member', 'member_id', 'member_email = ?', [$mail])->fetch();
                 
                 if(!$exists){
                     $id = $crud->add(
                         'member',
                         'member_nom, member_prenom, member_email, member_pwd, member_statut',
                         '?, ?, ?, ?, ?',
-                        [$_POST['nom'], $_POST['prenom'], $_POST['mail'], password_hash($_POST['password'], PASSWORD_DEFAULT), 'connecté']
+                        [$nom, $prenom, $mail, password_hash($_POST['password'], PASSWORD_DEFAULT), 'connecté']
                     );
 
                     session_regenerate_id(true); // Prévenir les attaques de fixation de session
                     
-                    $_SESSION['nom']=$_POST['nom'];
-                    $_SESSION['prenom']=$_POST['prenom'];
+                    $_SESSION['nom']=$nom;
+                    $_SESSION['prenom']=$prenom;
                     $_SESSION['id']=$id;
 
                     header('location:index.php?controller=dashbord');
                     exit();
                 }else{
-                    echo 'Email deja utilise, veillez saisir un nouveau';
+                    die('Email deja utilise, veillez saisir un nouveau');
                 }
                 
             }else{

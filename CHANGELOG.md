@@ -5,6 +5,14 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.4.0] — 2026-06-06
+
+### Sécurité
+- **Validation des entrées** (inscription et connexion) :
+  - Email validé avec `filter_var(FILTER_VALIDATE_EMAIL)` + `trim()`
+  - Nom et prénom : champs requis, longueur max 50 caractères
+  - Variables assainies (`$nom`, `$prenom`, `$mail`) utilisées partout dans l'insertion et la session
+
 ## [2.3.0] — 2026-06-05
 
 ### Amélioré
@@ -73,6 +81,7 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.4.0]: #240--2026-06-06
 [2.3.0]: #230--2026-06-05
 [2.2.0]: #220--2026-06-04
 [2.0.0]: #200--2026-06-03
