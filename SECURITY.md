@@ -50,6 +50,12 @@ et la procédure pour signaler une vulnérabilité.
 - Nom et prénom : champs requis, longueur max 50 caractères.
 - Contenu des messages : rejet des messages vides, limite à 2000 caractères (`mb_strlen`).
 
+### Gestion des exceptions PDO
+- Toutes les opérations base de données sont encadrées par `try/catch (PDOException $e)`.
+- Violation de contrainte UNIQUE (code `23000`) : message utilisateur explicite « Email déjà utilisé ».
+- Autres erreurs PDO : journalisées via `error_log()`, `http_response_code(500)`, aucune trace exposée à l'utilisateur.
+- `signin()` ne fait plus de `SELECT` préalable avant l'`INSERT` — la contrainte UNIQUE de la base fait foi, ce qui élimine la race condition « vérifier puis insérer ».
+
 ---
 
 ## Limites connues (projet en développement)

@@ -13,17 +13,26 @@
                     die('Email invalide');
                 }
 
-                $member = $crud->readWhere('member', '*', 'member_email = ?', [$mail])->fetch();
-                
-                if($member && password_verify($_POST['password'], $member['member_pwd'])){
-                    
-                    $crud->up( 
-                        'member', 
-                        'member_statut = ?', 'member_id = ?', 
-                        ['connecté', $member['member_id']]
-                    );
+                try {
+                    $member = $crud->readWhere('member', '*', 'member_email = ?', [$mail])->fetch();
+                } catch (PDOException $e) {
+                    error_log($e->getMessage());
+                    http_response_code(500);
+                    die('Une erreur est survenue, veuillez réessayer');
+                }
 
-                    session_regenerate_id(true); // Prévenir les attaques de fixation de session
+                if($member && password_verify($_POST['password'], $member['member_pwd'])){
+                    try {
+                        $crud->up(
+                            'member',
+                            'member_statut = ?', 'member_id = ?',
+                            ['connecté', $member['member_id']]
+                        );
+                    } catch (PDOException $e) {
+                        error_log($e->getMessage());
+                    }
+
+                    session_regenerate_id(true);
 
                     $_SESSION['nom']=$member['member_nom'];
                     $_SESSION['prenom']=$member['member_prenom'];
@@ -38,7 +47,7 @@
             }else{
                 die('CSRF token mismatch');
             }
-            
+
         }
         require('./views/signup.html');
     }
@@ -58,40 +67,42 @@
                 }
                 if(strlen($nom) > 50 || strlen($prenom) > 50){
                     die('Nom et prénom doivent être inférieurs à 50 caractères');
-
                 }
 
                 $mail = trim($_POST['mail']);
                 if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
                     die('Email invalide');
                 }
-                
-                $exists = $crud->readWhere('member', 'member_id', 'member_email = ?', [$mail])->fetch();
-                
-                if(!$exists){
+
+                try {
                     $id = $crud->add(
                         'member',
                         'member_nom, member_prenom, member_email, member_pwd, member_statut',
                         '?, ?, ?, ?, ?',
                         [$nom, $prenom, $mail, password_hash($_POST['password'], PASSWORD_DEFAULT), 'connecté']
                     );
-
-                    session_regenerate_id(true); // Prévenir les attaques de fixation de session
-                    
-                    $_SESSION['nom']=$nom;
-                    $_SESSION['prenom']=$prenom;
-                    $_SESSION['id']=$id;
-
-                    header('location:index.php?controller=dashbord');
-                    exit();
-                }else{
-                    die('Email deja utilise, veillez saisir un nouveau');
+                } catch (PDOException $e) {
+                    if($e->getCode() === '23000'){
+                        die('Email déjà utilisé, veuillez saisir un nouveau');
+                    }
+                    error_log($e->getMessage());
+                    http_response_code(500);
+                    die('Une erreur est survenue, veuillez réessayer');
                 }
-                
+
+                session_regenerate_id(true);
+
+                $_SESSION['nom']=$nom;
+                $_SESSION['prenom']=$prenom;
+                $_SESSION['id']=$id;
+
+                header('location:index.php?controller=dashbord');
+                exit();
+
             }else{
                 die('CSRF token mismatch');
             }
-            
+
         }
         require('./views/signin.html');
     }

@@ -15,6 +15,11 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - **Validation du contenu des messages** (`server.php`) :
   - `trim()` + rejet des messages vides
   - Longueur limitée à 2000 caractères (`mb_strlen`)
+- **Gestion des exceptions PDO** (`controller.php`) :
+  - `try/catch (PDOException $e)` autour de toutes les opérations base de données
+  - Code `23000` (contrainte UNIQUE) → message « Email déjà utilisé » sans exposer la trace
+  - Autres erreurs → `error_log()` + `http_response_code(500)`
+  - `signin()` : suppression du `SELECT` préalable — la contrainte UNIQUE + exception élimine la race condition
 - **Durcissement des cookies de session** (`bootstrap.php`) :
   - `HttpOnly` : cookie inaccessible via JavaScript
   - `Secure` : détecté automatiquement via `$_SERVER['HTTPS']` — actif en prod HTTPS, inactif en dev HTTP
