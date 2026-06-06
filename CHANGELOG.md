@@ -15,6 +15,11 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - **Validation du contenu des messages** (`server.php`) :
   - `trim()` + rejet des messages vides
   - Longueur limitée à 2000 caractères (`mb_strlen`)
+- **Durcissement des cookies de session** (`bootstrap.php`) :
+  - `HttpOnly` : cookie inaccessible via JavaScript
+  - `Secure` : détecté automatiquement via `$_SERVER['HTTPS']` — actif en prod HTTPS, inactif en dev HTTP
+  - `SameSite: Strict` : renforce la protection CSRF côté cookie
+  - Centralisé dans `bootstrap.php`, inclus par `index.php`, `server.php` et `event.php`
 
 ## [2.3.0] — 2026-06-05
 
