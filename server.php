@@ -1,6 +1,7 @@
 <?php
-    session_start();
+    require_once('bootstrap.php');
     require('db/model.php');
+    
     if(isset($_POST['task']) && $_POST['task']=='envoyer' && isset($_SESSION['id'], $_SESSION['rcv'])){
         if(isset($_POST['csrf']) && hash_equals($_SESSION['csrf'], $_POST['csrf'])){
             $content = trim($_POST['content'] ?? '');

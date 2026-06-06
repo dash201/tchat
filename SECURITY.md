@@ -39,6 +39,12 @@ et la procédure pour signaler une vulnérabilité.
 - Vérification de session avant toute action authentifiée (`dashbord`, `messenger`,
   `server.php`).
 
+### Cookies de session durcis
+- `HttpOnly` : cookie inaccessible via JavaScript (prévient le vol par XSS).
+- `Secure` : cookie transmis uniquement en HTTPS, détecté automatiquement via `$_SERVER['HTTPS']` (compatible dev HTTP et prod HTTPS sans modification).
+- `SameSite: Strict` : renforce la protection CSRF en bloquant l'envoi du cookie depuis un site tiers.
+- Centralisé dans `bootstrap.php`, inclus par `index.php`, `server.php` et `event.php`.
+
 ### Validation des entrées
 - Email validé avec `filter_var(FILTER_VALIDATE_EMAIL)` + `trim()` à la connexion et l'inscription.
 - Nom et prénom : champs requis, longueur max 50 caractères.

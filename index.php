@@ -1,5 +1,6 @@
 <?php
-    session_start();
+    require_once('bootstrap.php');
+
     if(!isset($_SESSION['csrf'])){
         $_SESSION['csrf'] = bin2hex(random_bytes(32));
     }

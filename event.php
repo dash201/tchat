@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    require_once('bootstrap.php');
     require("db/model.php");
     header('Content-Type: text/event-stream');
     header('Cache-Control: no-cache');
