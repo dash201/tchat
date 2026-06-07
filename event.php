@@ -5,7 +5,7 @@
     header('Cache-Control: no-cache');
 
     // retry doit être après les headers
-    //echo "retry: 500" . PHP_EOL;
+    echo "retry: 500" . PHP_EOL;
 
     function liste_utilisateur(){
         $crud = new crud();
@@ -14,7 +14,7 @@
             if($data["member_id"] != $_SESSION['id']):
                 $statut = ($data['member_statut'] === 'connecté') ? 'on' : 'off';
                 $initiale = htmlspecialchars(mb_strtoupper(mb_substr($data['member_nom'], 0, 1)));
-                $d .= '<a class="contact" href="index.php?controller=messenger&rcv='.htmlspecialchars($data['member_id']).'">'
+                $d .= '<a class="contact" data-id="'.htmlspecialchars($data['member_id']).'" href="index.php?controller=messenger&rcv='.htmlspecialchars($data['member_id']).'">'
                     . '<span class="contact-avatar">'.$initiale.'</span>'
                     . '<span class="contact-main">'
                     .   '<span class="contact-name">'.htmlspecialchars($data['member_nom'].' '.$data['member_prenom']).'</span>'

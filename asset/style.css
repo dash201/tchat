@@ -351,6 +351,9 @@ button:active { transform: translateY(1px); }
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     overflow: hidden;
+    /* Animé une seule fois sur le conteneur — pas sur chaque ligne, sinon
+       le rafraîchissement SSE ferait clignoter toute la liste. */
+    animation: card-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .contact {
@@ -362,7 +365,6 @@ button:active { transform: translateY(1px); }
     color: var(--slate-900);
     border-bottom: 1px solid var(--slate-100);
     transition: background-color 0.15s ease;
-    animation: row-in 0.35s ease both;
 }
 
 .contact:last-child { border-bottom: none; }
@@ -593,10 +595,6 @@ footer {
 @keyframes card-in {
     from { opacity: 0; transform: translateY(16px) scale(0.98); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-@keyframes row-in {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes msg-in {
     from { opacity: 0; transform: translateY(8px); }

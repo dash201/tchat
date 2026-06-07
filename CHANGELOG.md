@@ -5,6 +5,21 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.5.1] — 2026-06-07
+
+### Corrigé
+- **Clignotement de la liste des utilisateurs** : l'animation d'entrée était rejouée
+  par chaque contact à chaque reconnexion SSE. Déplacée sur le conteneur (une seule
+  fois au chargement).
+
+### Amélioré
+- **Mise à jour ciblée de la liste** (`ui.js`, `event.php`) : chaque contact porte
+  désormais une clé stable `data-id`. Le DOM n'est plus reconstruit en bloc — une
+  fonction de réconciliation ne remplace que les lignes réellement modifiées (statut),
+  ajoute les nouveaux inscrits et retire les partis.
+- Garde anti-re-rendu : si le contenu reçu est identique au précédent, le DOM n'est
+  pas touché du tout.
+
 ## [2.5.0] — 2026-06-07
 
 ### Ajouté
@@ -120,6 +135,7 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.5.1]: #251--2026-06-07
 [2.5.0]: #250--2026-06-07
 [2.4.0]: #240--2026-06-06
 [2.3.0]: #230--2026-06-05
