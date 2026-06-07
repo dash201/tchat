@@ -2,16 +2,44 @@
     require('./views/nav.html');
     ob_start();
 ?>
-<form action="index.php?controller=signin" method="post">
+<form class="auth-card" action="index.php?controller=signin" method="post">
+    <div class="auth-head">
+        <div class="auth-logo">💬</div>
+        <h1 class="auth-title">Créer un compte</h1>
+        <p class="auth-sub">Rejoignez la conversation en quelques secondes</p>
+    </div>
+
     <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf']; ?>">
-    <input type="text" name="nom" placeholder="Nom de famille"><br>
-    <input type="text" name="prenom" placeholder="Prenom"><br>
-    <input type="email" name="mail" placeholder="Email"><br>
-    <input type="password" name="password" placeholder="Mot de passe"><br>
-    <input type="submit" name="btn" value="inscription">
+
+    <label class="field">
+        <span class="field-label">Nom de famille</span>
+        <input type="text" name="nom" placeholder="Dupont" required>
+    </label>
+
+    <label class="field">
+        <span class="field-label">Prénom</span>
+        <input type="text" name="prenom" placeholder="Marie" required>
+    </label>
+
+    <label class="field">
+        <span class="field-label">Email</span>
+        <input type="email" name="mail" placeholder="vous@exemple.com" required>
+    </label>
+
+    <label class="field">
+        <span class="field-label">Mot de passe</span>
+        <input type="password" name="password" placeholder="••••••••" required>
+    </label>
+
+    <button type="submit" name="btn" value="inscription">Créer mon compte</button>
+
+    <p class="auth-switch">Déjà inscrit ?
+        <a href="index.php?controller=signup">Se connecter</a>
+    </p>
 </form>
 
 <?php
+    $bodyClass = 'page-auth';
     $content = ob_get_clean();
     require('./views/template.html');
 ?>

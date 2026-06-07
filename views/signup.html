@@ -2,14 +2,34 @@
     require('./views/nav.html');
     ob_start();
 ?>
-<form action="index.php?controller=signup" method="post">
-    <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf'];?>" >
-    <input type="email" name="mail" placeholder="Email"><br>
-    <input type="password" name="password" placeholder="Mot de passe"><br>
-    <input type="submit" name="btn" value="connexion">
+<form class="auth-card" action="index.php?controller=signup" method="post">
+    <div class="auth-head">
+        <div class="auth-logo">💬</div>
+        <h1 class="auth-title">Bon retour</h1>
+        <p class="auth-sub">Connectez-vous pour reprendre la discussion</p>
+    </div>
+
+    <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf']; ?>">
+
+    <label class="field">
+        <span class="field-label">Email</span>
+        <input type="email" name="mail" placeholder="vous@exemple.com" required>
+    </label>
+
+    <label class="field">
+        <span class="field-label">Mot de passe</span>
+        <input type="password" name="password" placeholder="••••••••" required>
+    </label>
+
+    <button type="submit" name="btn" value="connexion">Se connecter</button>
+
+    <p class="auth-switch">Pas encore de compte ?
+        <a href="index.php?controller=signin">Créer un compte</a>
+    </p>
 </form>
 
 <?php
+    $bodyClass = 'page-auth';
     $content = ob_get_clean();
     require('./views/template.html');
 ?>

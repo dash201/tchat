@@ -1,35 +1,46 @@
 /* ============================================================
-   Chat — feuille de style (inspiration WhatsApp / Messenger)
-   Palette verte WhatsApp, bulles de discussion, cartes modernes
+   Chat — feuille de style
+   Design moderne : palette indigo / violet, dégradés, verre dépoli,
+   avatars, animations douces, entièrement responsive.
    ============================================================ */
 
 :root {
-    --green-900: #075e54; /* teal foncé */
-    --green-700: #128c7e;
-    --green-600: #008069; /* barre / accent principal */
-    --green-500: #00a884;
-    --green-bubble: #d9fdd3; /* bulle "envoyé" */
+    /* Marque */
+    --brand-400: #818cf8;
+    --brand-500: #6366f1;
+    --brand-600: #4f46e5;
+    --brand-700: #4338ca;
+    --violet:    #8b5cf6;
+    --pink:      #ec4899;
 
-    --bg-app:    #f0f2f5; /* fond général */
-    --bg-chat:   #efeae2; /* fond du fil de discussion */
-    --white:     #ffffff;
+    /* Dégradés signature */
+    --grad-brand:  linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #ec4899 100%);
+    --grad-soft:   linear-gradient(135deg, #6366f1, #8b5cf6);
 
-    --gray-100: #f1f3f5;
-    --gray-200: #e4e6eb;
-    --gray-300: #d1d7db;
-    --gray-400: #aab1b6;
-    --gray-500: #667781;
-    --gray-700: #3b4a54;
-    --gray-900: #111b21;
+    /* Surfaces & texte (slate) */
+    --bg-app:    #f1f5f9;
+    --surface:   #ffffff;
+    --slate-50:  #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-900: #0f172a;
 
-    --status-on:  #25d366;
-    --status-off: #aab1b6;
+    --status-on:  #22c55e;
+    --status-off: #94a3b8;
 
-    --radius:    0.75rem;
-    --radius-sm: 0.5rem;
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
-    --shadow:    0 4px 12px rgb(0 0 0 / 0.12);
-    --shadow-lg: 0 10px 30px rgb(0 0 0 / 0.15);
+    --radius-sm: 0.625rem;
+    --radius:    1rem;
+    --radius-lg: 1.5rem;
+
+    --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow:    0 8px 24px -6px rgb(15 23 42 / 0.12);
+    --shadow-lg: 0 24px 60px -12px rgb(79 70 229 / 0.35);
+    --ring:      0 0 0 4px rgb(99 102 241 / 0.18);
 }
 
 *, *::before, *::after {
@@ -38,67 +49,82 @@
     padding: 0;
 }
 
-html { -webkit-font-smoothing: antialiased; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 
 body {
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-                 Helvetica, Arial, sans-serif;
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                 Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-app);
-    color: var(--gray-900);
+    color: var(--slate-900);
     line-height: 1.5;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
 }
+
+a { color: inherit; }
+
+::selection { background: rgb(139 92 246 / 0.22); }
 
 /* ============================================================
    En-tête + marque + navigation
    ============================================================ */
 header {
-    background-color: var(--green-600);
-    color: var(--white);
-    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: rgb(255 255 255 / 0.78);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--slate-200);
 }
 
 header section {
-    max-width: 60rem;
+    max-width: 64rem;
     margin: 0 auto;
     padding: 0 1.5rem;
-    height: 3.75rem;
+    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .brand {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--white);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     text-decoration: none;
-    letter-spacing: -0.01em;
+    background: var(--grad-soft);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 nav ul {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.4rem;
 }
 
 nav ul li a {
     display: inline-block;
-    padding: 0.45rem 0.85rem;
+    padding: 0.5rem 1rem;
     border-radius: 999px;
-    color: rgb(255 255 255 / 0.9);
+    color: var(--slate-600);
     text-decoration: none;
     font-size: 0.875rem;
-    font-weight: 500;
-    transition: background-color 0.15s ease;
+    font-weight: 600;
+    transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 nav ul li a:hover {
-    background-color: rgb(255 255 255 / 0.15);
-    color: var(--white);
+    background-color: var(--slate-100);
+    color: var(--brand-600);
 }
 
 /* ============================================================
@@ -107,130 +133,277 @@ nav ul li a:hover {
 body > div {
     flex: 1 1 auto;
     width: 100%;
-    max-width: 60rem;
+    max-width: 64rem;
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
 }
 
 /* ============================================================
-   Authentification (connexion / inscription)
-   Formulaire centré dans une carte
+   PAGE AUTH — dégradé immersif + carte en verre dépoli
    ============================================================ */
-form:not(.chat-input) {
-    background-color: var(--white);
-    border-radius: var(--radius);
+.page-auth {
+    background: var(--grad-brand);
+    background-attachment: fixed;
+}
+
+/* Halos lumineux décoratifs */
+.page-auth::before,
+.page-auth::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 0;
+}
+.page-auth::before {
+    width: 28rem; height: 28rem;
+    top: -8rem; left: -8rem;
+    background: rgb(255 255 255 / 0.4);
+}
+.page-auth::after {
+    width: 22rem; height: 22rem;
+    bottom: -7rem; right: -6rem;
+    background: rgb(236 72 153 / 0.5);
+}
+
+.page-auth header {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+    z-index: 10;
+}
+.page-auth .brand {
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: #ffffff;
+}
+.page-auth nav ul li a { color: rgb(255 255 255 / 0.92); }
+.page-auth nav ul li a:hover {
+    background-color: rgb(255 255 255 / 0.18);
+    color: #ffffff;
+}
+
+.page-auth > div {
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.page-auth footer { color: rgb(255 255 255 / 0.85); position: relative; z-index: 10; }
+
+/* Carte d'authentification */
+.auth-card {
+    width: 100%;
+    max-width: 24rem;
+    background-color: rgb(255 255 255 / 0.96);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgb(255 255 255 / 0.6);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     padding: 2.25rem 2rem;
-    width: 100%;
-    max-width: 23rem;
-    margin: auto;            /* centrage vertical + horizontal */
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
+    animation: card-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Titre injecté au-dessus du formulaire d'auth */
-form:not(.chat-input)::before {
-    content: "💬 Chat";
-    display: block;
-    text-align: center;
+.auth-head { text-align: center; margin-bottom: 0.25rem; }
+
+.auth-logo {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 0.9rem;
+    border-radius: 1.1rem;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    background: var(--grad-soft);
+    box-shadow: 0 10px 24px -6px rgb(99 102 241 / 0.6);
+}
+
+.auth-title {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--green-600);
-    margin-bottom: 0.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--slate-900);
 }
 
-/* Les <br> des formulaires d'auth ne servent plus (mise en page via flex/gap) */
-form:not(.chat-input) br { display: none; }
+.auth-sub {
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    color: var(--slate-500);
+}
 
+/* Champs avec étiquette */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.field-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--slate-600);
+}
+
+.auth-switch {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--slate-500);
+}
+.auth-switch a {
+    font-weight: 600;
+    color: var(--brand-600);
+    text-decoration: none;
+}
+.auth-switch a:hover { text-decoration: underline; }
+
+/* ============================================================
+   Champs de saisie
+   ============================================================ */
 input[type="text"],
 input[type="email"],
 input[type="password"],
 textarea {
     width: 100%;
     font-family: inherit;
-    font-size: 0.9375rem;
-    color: var(--gray-900);
-    background-color: var(--white);
-    border: 1px solid var(--gray-300);
+    font-size: 0.95rem;
+    color: var(--slate-900);
+    background-color: var(--slate-50);
+    border: 1px solid var(--slate-200);
     border-radius: var(--radius-sm);
-    padding: 0.7rem 0.85rem;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    padding: 0.75rem 0.9rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
 }
 
-input::placeholder, textarea::placeholder { color: var(--gray-400); }
+input::placeholder, textarea::placeholder { color: var(--slate-400); }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 textarea:focus {
     outline: none;
-    border-color: var(--green-500);
-    box-shadow: 0 0 0 3px rgb(0 168 132 / 0.2);
+    background-color: var(--surface);
+    border-color: var(--brand-500);
+    box-shadow: var(--ring);
 }
 
 /* ============================================================
    Boutons
    ============================================================ */
 input[type="submit"],
-input[type="button"],
 button {
     cursor: pointer;
     font-family: inherit;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--white);
-    background-color: var(--green-600);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-image: var(--grad-soft);
     border: none;
     border-radius: var(--radius-sm);
-    padding: 0.7rem 1.1rem;
-    transition: background-color 0.15s ease, transform 0.05s ease;
+    padding: 0.8rem 1.2rem;
+    box-shadow: 0 8px 20px -8px rgb(99 102 241 / 0.7);
+    transition: transform 0.08s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 input[type="submit"]:hover,
-input[type="button"]:hover,
-button:hover { background-color: var(--green-700); }
-
+button:hover { filter: brightness(1.05); box-shadow: 0 12px 26px -8px rgb(99 102 241 / 0.8); }
 input[type="submit"]:active,
-input[type="button"]:active,
 button:active { transform: translateY(1px); }
 
+:focus-visible { outline: 2px solid var(--brand-500); outline-offset: 2px; }
+
 /* ============================================================
-   Tableau de bord — liste des contacts (style WhatsApp)
+   Tableau de bord — panneau + liste de contacts
    ============================================================ */
+.panel {
+    width: 100%;
+    max-width: 34rem;
+    margin: 0 auto;
+}
+
+.panel-head { margin-bottom: 1.25rem; }
+
+.panel-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.panel-sub {
+    margin-top: 0.25rem;
+    color: var(--slate-500);
+    font-size: 0.925rem;
+}
+
 #liste_utilisateur {
-    background-color: var(--white);
+    background-color: var(--surface);
+    border: 1px solid var(--slate-200);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     overflow: hidden;
-    width: 100%;
-    max-width: 30rem;
-    margin: 0 auto;
 }
 
 .contact {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.9rem 1.15rem;
+    gap: 0.85rem;
+    padding: 0.85rem 1.1rem;
     text-decoration: none;
-    color: var(--gray-900);
-    border-bottom: 1px solid var(--gray-100);
+    color: var(--slate-900);
+    border-bottom: 1px solid var(--slate-100);
     transition: background-color 0.15s ease;
+    animation: row-in 0.35s ease both;
 }
 
 .contact:last-child { border-bottom: none; }
-.contact:hover { background-color: var(--gray-100); }
+.contact:hover { background-color: var(--slate-50); }
 
-.contact-name { font-weight: 500; font-size: 0.95rem; }
+.contact-avatar,
+.chat-avatar {
+    flex: 0 0 auto;
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #ffffff;
+    background: var(--grad-soft);
+    box-shadow: 0 4px 10px -2px rgb(99 102 241 / 0.5);
+    text-transform: uppercase;
+}
+
+.contact-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .contact-status {
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 0.15rem 0.6rem;
+    flex: 0 0 auto;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
@@ -245,110 +418,163 @@ button:active { transform: translateY(1px); }
     background-color: currentColor;
 }
 
-.status-on  { color: var(--status-on);  background-color: rgb(37 211 102 / 0.12); }
-.status-off { color: var(--status-off); background-color: rgb(170 177 182 / 0.15); }
+.status-on  { color: var(--status-on);  background-color: rgb(34 197 94 / 0.12); }
+.status-off { color: var(--status-off); background-color: rgb(148 163 184 / 0.16); }
 
 /* ============================================================
-   Messagerie — rendu façon WhatsApp / Messenger
+   Messagerie
    ============================================================ */
 .chat {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 42rem;
-    height: 70vh;
+    max-width: 44rem;
+    height: 72vh;
+    max-height: 760px;
     margin: 0 auto;
-    background-color: var(--white);
+    background-color: var(--surface);
+    border: 1px solid var(--slate-200);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     overflow: hidden;
 }
 
-/* Fil de discussion (zone scrollable) */
+/* En-tête de la conversation */
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.chat-back {
+    flex: 0 0 auto;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    color: var(--slate-600);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+.chat-back:hover { background-color: var(--slate-100); }
+
+.chat-peer { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.chat-peer-name { font-weight: 700; font-size: 0.95rem; }
+.chat-peer-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.chat-peer-status::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+/* Fil de discussion */
 #liste_message {
     flex: 1 1 auto;
     overflow-y: auto;
     padding: 1.25rem;
-    background-color: var(--bg-chat);
-    background-image: linear-gradient(rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.4));
+    background-color: #f6f7fb;
+    background-image:
+        radial-gradient(circle at 1px 1px, rgb(99 102 241 / 0.07) 1px, transparent 0);
+    background-size: 22px 22px;
     display: flex;
     flex-direction: column;
 }
 
-/* Une ligne de message = alignement gauche/droite */
 .msg {
     display: flex;
     margin-bottom: 0.5rem;
+    animation: msg-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .msg-sent     { justify-content: flex-end; }
 .msg-received { justify-content: flex-start; }
 
-/* La bulle */
 .bubble {
-    max-width: 70%;
-    padding: 0.5rem 0.7rem;
-    border-radius: var(--radius-sm);
+    max-width: 72%;
+    padding: 0.55rem 0.8rem;
+    border-radius: 1.1rem;
     box-shadow: var(--shadow-sm);
     position: relative;
 }
 
 .msg-sent .bubble {
-    background-color: var(--green-bubble);
-    border-bottom-right-radius: 2px;
+    background-image: var(--grad-soft);
+    color: #ffffff;
+    border-bottom-right-radius: 0.3rem;
 }
 
 .msg-received .bubble {
-    background-color: var(--white);
-    border-bottom-left-radius: 2px;
+    background-color: var(--surface);
+    border: 1px solid var(--slate-200);
+    border-bottom-left-radius: 0.3rem;
 }
 
 .bubble .author {
     display: block;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    color: var(--green-700);
+    color: var(--brand-600);
     margin-bottom: 0.15rem;
 }
 
 .bubble .text {
-    font-size: 0.9375rem;
-    color: var(--gray-900);
+    font-size: 0.95rem;
     word-break: break-word;
     white-space: pre-wrap;
 }
+.msg-received .bubble .text { color: var(--slate-900); }
 
 .bubble .time {
     display: block;
     text-align: right;
-    font-size: 0.6875rem;
-    color: var(--gray-500);
-    margin-top: 0.2rem;
+    font-size: 0.66rem;
+    margin-top: 0.25rem;
+    opacity: 0.75;
 }
+.msg-sent .bubble .time { color: rgb(255 255 255 / 0.85); }
+.msg-received .bubble .time { color: var(--slate-400); }
 
-/* Barre de saisie en bas */
+/* Barre de saisie */
 .chat-input {
     display: flex;
     align-items: flex-end;
     gap: 0.6rem;
     padding: 0.75rem;
-    background-color: var(--gray-100);
-    border-top: 1px solid var(--gray-200);
+    background-color: var(--surface);
+    border-top: 1px solid var(--slate-200);
 }
 
 .chat-input textarea {
     flex: 1 1 auto;
-    min-height: 2.75rem;
+    min-height: 2.8rem;
     max-height: 8rem;
     resize: none;
     border-radius: 1.4rem;
-    padding: 0.65rem 1rem;
-    background-color: var(--white);
+    padding: 0.7rem 1.05rem;
+    background-color: var(--slate-50);
 }
 
-.chat-input input[type="button"] {
+.chat-send {
     flex: 0 0 auto;
-    border-radius: 1.4rem;
-    padding: 0.7rem 1.3rem;
+    width: 2.9rem;
+    height: 2.9rem;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.15rem;
+    display: grid;
+    place-items: center;
 }
 
 /* ============================================================
@@ -356,7 +582,53 @@ button:active { transform: translateY(1px); }
    ============================================================ */
 footer {
     text-align: center;
-    color: var(--gray-400);
-    font-size: 0.8125rem;
-    padding: 1.25rem;
+    color: var(--slate-400);
+    font-size: 0.8rem;
+    padding: 1.5rem 1rem;
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes card-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes row-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 640px) {
+    header section { padding: 0 1rem; height: 3.5rem; }
+    .brand { font-size: 1.15rem; }
+    nav ul li a { padding: 0.45rem 0.7rem; font-size: 0.82rem; }
+
+    body > div { padding: 1.25rem 1rem; }
+
+    .auth-card { padding: 1.75rem 1.35rem; border-radius: var(--radius); }
+
+    .bubble { max-width: 85%; }
+
+    /* Conversation en plein écran sur mobile */
+    .page-chat > div { padding: 0; }
+    .page-chat footer { display: none; }
+    .chat {
+        height: calc(100dvh - 3.5rem);
+        max-height: none;
+        border: none;
+        border-radius: 0;
+        max-width: none;
+    }
 }

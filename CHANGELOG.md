@@ -5,6 +5,32 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.5.0] — 2026-06-07
+
+### Ajouté
+- **Refonte visuelle complète** : nouvelle identité indigo → violet → rose
+  (dégradés signature, verre dépoli, ombres douces, animations d'entrée).
+- **Avatars** : pastille circulaire avec l'initiale du contact (liste et conversation).
+- **En-tête de conversation** : bouton retour, avatar, nom et statut du destinataire.
+- Étiquettes de champs sur les formulaires d'authentification.
+- Lien de bascule connexion ↔ inscription dans la carte d'auth.
+
+### Modifié
+- **Pages connexion / inscription** repensées : fond dégradé immersif, carte vitrée
+  centrée, logo en pastille.
+- **Messagerie** : bulles modernisées (envoyé en dégradé, reçu bordé), fond à motif
+  pointillé, bouton d'envoi circulaire à icône.
+- **Tableau de bord** : en-tête « Discussions », liste de contacts redessinée.
+- En-tête du site rendu *sticky* avec effet de flou ; marque en dégradé.
+- Boutons d'auth migrés vers `<button name="btn" value="…">` (libellés lisibles
+  sans changer la logique du contrôleur).
+- `template.html` : `lang="fr"`, classe `body` par page, correction du pied de page
+  (`copyrigth 2022` → `© <année courante>`).
+
+### Responsive
+- Adaptation mobile complète : conversation en plein écran (`100dvh`), bulles
+  élargies, en-tête compacté, prise en charge de `prefers-reduced-motion`.
+
 ## [2.4.0] — 2026-06-06
 
 ### Sécurité
@@ -94,6 +120,7 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.5.0]: #250--2026-06-07
 [2.4.0]: #240--2026-06-06
 [2.3.0]: #230--2026-06-05
 [2.2.0]: #220--2026-06-04

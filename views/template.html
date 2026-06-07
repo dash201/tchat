@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="./asset/style.css">
         <title>Chat</title>
     </head>
-    <body>
+    <body class="<?=isset($bodyClass)?$bodyClass:''?>">
         <header>
             <section>
                 <a class="brand" href="index.php">💬 Chat</a>
@@ -22,7 +22,7 @@
         </div>
 
         <footer>
-            copyrigth 2022;
+            © <?=date('Y')?> Chat — projet d'apprentissage
         </footer>
     </body>
     <script src="./asset/ui.js"></script>

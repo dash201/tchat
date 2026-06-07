@@ -1,12 +1,12 @@
 <?php
     if(!isset($_SESSION['id'])){
         $menu = '<ul>
-                <li><a href="index.php?controller=signin">inscription</a></li>
-                <li><a href="index.php?controller=signup">connexion</a></li>
+                <li><a href="index.php?controller=signin">Inscription</a></li>
+                <li><a href="index.php?controller=signup">Connexion</a></li>
             </ul>';
     }elseif(isset($_SESSION['id'])){
         $menu = '<ul>
-            <li><a href="index.php?controller=disconnect">deconnexion</a></li>
+            <li><a href="index.php?controller=disconnect">Déconnexion</a></li>
         </ul>';
     }
 ?>

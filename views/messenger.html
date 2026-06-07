@@ -1,17 +1,38 @@
 <?php
-    require('./views/nav.html');ob_start();
+    require('./views/nav.html');
+
+    // Destinataire de la conversation (pour l'en-tête)
+    $crud = new crud();
+    $dest = $crud->readWhere('member', '*', 'member_id = ?', [$_SESSION['rcv']])->fetch();
+    $destNom      = $dest ? htmlspecialchars($dest['member_nom'].' '.$dest['member_prenom']) : 'Discussion';
+    $destInitiale = $dest ? htmlspecialchars(mb_strtoupper(mb_substr($dest['member_nom'], 0, 1))) : '?';
+    $destStatut   = ($dest && $dest['member_statut'] === 'connecté') ? 'on' : 'off';
+    $destStatutTxt= $dest ? htmlspecialchars($dest['member_statut']) : '';
+
+    ob_start();
 ?>
 
 <div class="chat">
+    <div class="chat-header">
+        <a class="chat-back" href="index.php?controller=dashbord" aria-label="Retour">←</a>
+        <span class="chat-avatar"><?= $destInitiale ?></span>
+        <div class="chat-peer">
+            <span class="chat-peer-name"><?= $destNom ?></span>
+            <span class="chat-peer-status status-<?= $destStatut ?>"><?= $destStatutTxt ?></span>
+        </div>
+    </div>
+
     <div id="liste_message"></div>
+
     <form class="chat-input">
         <input type="hidden" id="csrf" name="csrf" value="<?= $_SESSION['csrf'] ?>">
         <textarea id="content" placeholder="Écrivez un message..."></textarea>
-        <input type="button" id="send" onclick="send_sms()" value="Envoyer">
+        <button type="button" id="send" class="chat-send" onclick="send_sms()" aria-label="Envoyer">➤</button>
     </form>
 </div>
 
 <?php
+    $bodyClass = 'page-chat';
     $script = '<script>
         event("event.php", "message", "liste_message", true);
     </script>';
