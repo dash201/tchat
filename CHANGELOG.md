@@ -5,6 +5,21 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.7.0] — 2026-06-07
+
+### Sécurité
+- **En-têtes de sécurité HTTP** (`bootstrap.php`) :
+  - **Content-Security-Policy** : `default-src 'self'`, `script-src 'self' 'nonce-…'`,
+    `style-src 'self'`. Nonce aléatoire par requête (`CSP_NONCE`) injecté dans les scripts
+    inline légitimes (`dashboard.html`, `messenger.html`) ; aucun `'unsafe-inline'`.
+  - **X-Frame-Options: DENY** (anti-clickjacking).
+  - **X-Content-Type-Options: nosniff**.
+
+### Modifié
+- Suppression du gestionnaire inline `onclick="send_sms()"` (bloqué par la CSP) au profit
+  d'un `addEventListener` dans `ui.js`. Bouton d'envoi renommé `#sendsms`, écouteur attaché
+  avec chaînage optionnel (`?.`) pour ne rien tenter sur les pages sans bouton.
+
 ## [2.6.0] — 2026-06-07
 
 ### Sécurité
@@ -145,6 +160,7 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.7.0]: #270--2026-06-07
 [2.6.0]: #260--2026-06-07
 [2.5.1]: #251--2026-06-07
 [2.5.0]: #250--2026-06-07

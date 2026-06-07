@@ -13,7 +13,7 @@
 
 <?php
     $bodyClass = 'page-dashboard';
-    $script = '<script>
+    $script = '<script nonce="'.CSP_NONCE.'">
         event("event.php", "user", "liste_utilisateur", false);
     </script>';
     $content = ob_get_clean();

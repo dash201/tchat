@@ -2,6 +2,8 @@ function _(elt){
     return document.getElementById(elt);
 }
 
+_("sendsms")?.addEventListener("click", send_sms);
+
 // Mémorise le dernier contenu reçu par élément (mode remplacement) pour
 // éviter de réécrire le DOM quand rien n'a changé — sinon la liste clignote
 // à chaque reconnexion SSE (toutes les quelques secondes).

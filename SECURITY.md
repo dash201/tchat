@@ -67,6 +67,16 @@ et la procédure pour signaler une vulnérabilité.
   HTTP `429` (Too Many Requests).
 - Les tentatives sont purgées après une connexion réussie.
 
+### En-têtes de sécurité HTTP
+- **Content-Security-Policy** : `default-src 'self'`, `script-src 'self' 'nonce-…'`,
+  `style-src 'self'`. Un **nonce** aléatoire par requête (`base64_encode(random_bytes(16))`)
+  autorise les scripts inline légitimes — aucun `'unsafe-inline'`, donc les gestionnaires
+  inline (`onclick`) et scripts injectés sont bloqués. Les handlers sont attachés via
+  `addEventListener` côté JS.
+- **X-Frame-Options: DENY** : protège contre le clickjacking (page non incluable en iframe).
+- **X-Content-Type-Options: nosniff** : empêche le navigateur de deviner le type MIME.
+- Centralisés dans `bootstrap.php`.
+
 ---
 
 ## Limites connues (projet en développement)
@@ -74,7 +84,6 @@ et la procédure pour signaler une vulnérabilité.
 | Limitation | Impact | Statut |
 |---|---|---|
 | Pas de validation du mot de passe (longueur min) | Mots de passe trop courts acceptés | Planifié |
-| Pas d'en-têtes de sécurité HTTP | Pas de CSP, X-Frame-Options, X-Content-Type-Options | Planifié |
 | Pas de HTTPS configuré | Données en transit non chiffrées (hors TLS externe) | Hors scope dev local |
 
 ---

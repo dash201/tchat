@@ -27,13 +27,13 @@
     <form class="chat-input">
         <input type="hidden" id="csrf" name="csrf" value="<?= $_SESSION['csrf'] ?>">
         <textarea id="content" placeholder="Écrivez un message..."></textarea>
-        <button type="button" id="send" class="chat-send" onclick="send_sms()" aria-label="Envoyer">➤</button>
+        <button type="button" id="sendsms" class="chat-send" aria-label="Envoyer">➤</button>
     </form>
 </div>
 
 <?php
     $bodyClass = 'page-chat';
-    $script = '<script>
+    $script = '<script nonce="'.CSP_NONCE.'">
         event("event.php", "message", "liste_message", true);
     </script>';
     $content = ob_get_clean();
