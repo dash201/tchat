@@ -5,6 +5,12 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.7.1] — 2026-06-07
+
+### Sécurité
+- **Longueur minimale du mot de passe** (`controller.php`) : refus à l'inscription
+  des mots de passe de moins de 8 caractères.
+
 ## [2.7.0] — 2026-06-07
 
 ### Sécurité
@@ -160,6 +166,7 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.7.1]: #271--2026-06-07
 [2.7.0]: #270--2026-06-07
 [2.6.0]: #260--2026-06-07
 [2.5.1]: #251--2026-06-07

@@ -52,6 +52,7 @@ et la procédure pour signaler une vulnérabilité.
 ### Validation des entrées
 - Email validé avec `filter_var(FILTER_VALIDATE_EMAIL)` + `trim()` à la connexion et l'inscription.
 - Nom et prénom : champs requis, longueur max 50 caractères.
+- Mot de passe : longueur minimale de 8 caractères à l'inscription.
 - Contenu des messages : rejet des messages vides, limite à 2000 caractères (`mb_strlen`).
 
 ### Gestion des exceptions PDO
@@ -83,7 +84,6 @@ et la procédure pour signaler une vulnérabilité.
 
 | Limitation | Impact | Statut |
 |---|---|---|
-| Pas de validation du mot de passe (longueur min) | Mots de passe trop courts acceptés | Planifié |
 | Pas de HTTPS configuré | Données en transit non chiffrées (hors TLS externe) | Hors scope dev local |
 
 ---

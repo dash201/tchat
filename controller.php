@@ -113,12 +113,17 @@
                     die('Email invalide');
                 }
 
+                $password = $_POST['password'] ?? '';
+                if(strlen($password) < 8){
+                    die('Le mot de passe doit contenir au moins 8 caractères');
+                }
+
                 try {
                     $id = $crud->add(
                         'member',
                         'member_nom, member_prenom, member_email, member_pwd, member_statut',
                         '?, ?, ?, ?, ?',
-                        [$nom, $prenom, $mail, password_hash($_POST['password'], PASSWORD_DEFAULT), 'connecté']
+                        [$nom, $prenom, $mail, password_hash($password, PASSWORD_DEFAULT), 'connecté']
                     );
                 } catch (PDOException $e) {
                     if($e->getCode() === '23000'){
