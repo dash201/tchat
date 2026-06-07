@@ -13,6 +13,28 @@
                     die('Email invalide');
                 }
 
+                $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+                $limite = date('Y-m-d H:i:s', time() - 15*60); // il y a 15 minutes
+
+                // 1. Compte des tentatives de connexion échouées depuis ce mail +IP
+                try {
+                    $echecs = $crud->readwhere(
+                        'login_attempt',
+                        'COUNT(*) AS nb',
+                        'login_email = ? AND login_ip = ? AND login_date > ?',
+                        [$mail, $ip, $limite]
+                    )->fetch();
+                } catch (PDOException $e) {
+                    error_log($e->getMessage());
+                    http_response_code(500);
+                    die('Une erreur est survenue, veuillez réessayer');
+                }
+
+                if ($echecs['nb'] >= 5){
+                    http_response_code(429); // Trop de tentatives
+                    die('Trop de tentatives de connexion échouées, veuillez réessayer dans 15 minutes');
+                }
+
                 try {
                     $member = $crud->readWhere('member', '*', 'member_email = ?', [$mail])->fetch();
                 } catch (PDOException $e) {
@@ -23,6 +45,10 @@
 
                 if($member && password_verify($_POST['password'], $member['member_pwd'])){
                     try {
+
+                        // 2.Succès -> On supprime les tentatives échouées pour ce mail +IP
+                        $crud->del('login_attempt', 'login_email = ?', [$mail]);
+                        
                         $crud->up(
                             'member',
                             'member_statut = ?', 'member_id = ?',
@@ -41,6 +67,19 @@
                     header('location:index.php?controller=dashbord');
                     exit();
                 }else{
+
+                    // 3.Échec -> On enregistre la tentative échouée
+                    try {
+                        $crud->add(
+                            'login_attempt',
+                            'login_email, login_ip',
+                            '?, ?',
+                            [$mail, $ip]
+                        );
+                    } catch (PDOException $e) {
+                        error_log($e->getMessage());
+                    }
+
                     header('location:index.php?controller=signup');
                     exit();
                 }

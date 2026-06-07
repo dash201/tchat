@@ -60,6 +60,13 @@ et la procédure pour signaler une vulnérabilité.
 - Autres erreurs PDO : journalisées via `error_log()`, `http_response_code(500)`, aucune trace exposée à l'utilisateur.
 - `signin()` ne fait plus de `SELECT` préalable avant l'`INSERT` — la contrainte UNIQUE de la base fait foi, ce qui élimine la race condition « vérifier puis insérer ».
 
+### Protection anti-force-brute (connexion)
+- Table `login_attempt` qui journalise chaque échec de connexion (email, IP, horodatage).
+- Avant toute vérification de mot de passe, comptage des échecs récents (< 15 min) pour
+  le couple email + IP ; au-delà de **5 échecs**, la connexion est bloquée avec un code
+  HTTP `429` (Too Many Requests).
+- Les tentatives sont purgées après une connexion réussie.
+
 ---
 
 ## Limites connues (projet en développement)
@@ -67,7 +74,6 @@ et la procédure pour signaler une vulnérabilité.
 | Limitation | Impact | Statut |
 |---|---|---|
 | Pas de validation du mot de passe (longueur min) | Mots de passe trop courts acceptés | Planifié |
-| Pas de protection anti-force-brute | Tentatives de mot de passe illimitées | Planifié |
 | Pas d'en-têtes de sécurité HTTP | Pas de CSP, X-Frame-Options, X-Content-Type-Options | Planifié |
 | Pas de HTTPS configuré | Données en transit non chiffrées (hors TLS externe) | Hors scope dev local |
 

@@ -5,6 +5,16 @@ Toutes les évolutions notables du projet sont consignées dans ce fichier.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [2.6.0] — 2026-06-07
+
+### Sécurité
+- **Protection anti-force-brute** sur la connexion (`controller.php`, `db/schema.sql`) :
+  - Nouvelle table `login_attempt` (email, IP, horodatage) avec index `(login_email, login_date)`.
+  - Comptage des échecs récents (< 15 min) par couple email + IP **avant** la vérification
+    du mot de passe ; au-delà de 5 échecs → blocage avec code HTTP `429`.
+  - Purge des tentatives après une connexion réussie.
+  - Toutes les requêtes liées sont encadrées par `try/catch (PDOException)`.
+
 ## [2.5.1] — 2026-06-07
 
 ### Corrigé
@@ -135,6 +145,7 @@ et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 - Stockage des données en fichiers JSON.
 - Tableau de bord des utilisateurs et messagerie privée entre deux membres.
 
+[2.6.0]: #260--2026-06-07
 [2.5.1]: #251--2026-06-07
 [2.5.0]: #250--2026-06-07
 [2.4.0]: #240--2026-06-06

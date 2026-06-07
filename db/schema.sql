@@ -29,3 +29,11 @@ CREATE TABLE IF NOT EXISTS messenger (
     FOREIGN KEY (messenger_id_sender)   REFERENCES member(member_id),
     FOREIGN KEY (messenger_id_receiver) REFERENCES member(member_id)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS login_attempt (
+    login_id    INT AUTO_INCREMENT PRIMARY KEY,
+    login_email VARCHAR(190) NOT NULL,
+    login_ip    VARCHAR(45)  NOT NULL,   -- 45 = compatible IPv6
+    login_date  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email_date (login_email, login_date)
+) ENGINE=InnoDB;
